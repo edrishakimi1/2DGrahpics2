@@ -17,7 +17,7 @@ object Dissolve extends Effect(500, 500) {
   var clock = 0
 
   // Here we load the image we are going to manipulate
-  var current = {
+    var current = {
     // Start with an empty image
     val start = emptyImage
 
@@ -66,15 +66,10 @@ object Dissolve extends Effect(500, 500) {
     val nextImage = ImageExtensions.emptyImage(100, 100)
     val fireImage = emptyImage
     val graphics = fireImage.graphics
-
      for (k <- 1 to 30) {
 
         val sade = 250 - k * 10
-        val xkohta = 250
-        val ykohta = 250
-
         var kulmat = 7
-
         val kulmatkellu = kulmat * 1.0
 
         var nopeus = 0.1
@@ -82,14 +77,9 @@ object Dissolve extends Effect(500, 500) {
         if(clock > 100){
           speed = -0.1
         }
+        val xx = Array.tabulate(kulmat)( x => ( sade * math.cos(clock * k * speed + x / kulmatkellu * (2.0 * math.Pi))).toInt +250)
+        val yy = Array.tabulate(kulmat)( x => ( sade * math.sin(clock * k * speed + x / kulmatkellu * (2.0 * math.Pi))).toInt + 250)
 
-        val xx = Array.tabulate(kulmat)( x => ( sade * math.cos(clock * k * speed + x / kulmatkellu * (2.0 * math.Pi))).toInt + xkohta)
-        val yy = Array.tabulate(kulmat)( x => ( sade * math.sin(clock * k * speed + x / kulmatkellu * (2.0 * math.Pi))).toInt + ykohta)
-        if(k % 2 == 1) {
-          graphics.setColor(java.awt.Color.black)
-        } else {
-
-        }
        for {
       y <- 0 until fireHeight
       x <- 0 until fireWidth

@@ -93,5 +93,5 @@ object Epilepse extends Effect(500, 500){
   }
 
   
-  def next = clock > 300
+  def next = clock > 200
 }

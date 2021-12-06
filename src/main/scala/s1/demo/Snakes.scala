@@ -1,98 +1,73 @@
 package s1.demo
-
-import java.awt.image.BufferedImage
 import s1.image.ImageExtensions._
 
-class Circle(val x: Int, val y: Int)
+import java.awt.Color._
+import java.awt.BasicStroke
+import scala.collection.mutable
+import scala.util.Random
 
 /**
- * The idea for this effect came from Felix Bade.
- * 
- * The effect draws a continuous stream of filled
- * circles that changes it's course randomly.
+ * This simple effect features a bouncing ball
  */
+object BouncingBall extends Effect(500, 500){
 
+  // The ball has coordinates and speed
+  class Rectangle(val x: Int, val y:Int,nimi: String,  val xSpeed: Int, val ySpeed: Int)
 
-object Snakes extends Effect(500, 500) {
-  
-    // This variable could hold a background image if wanted
-    //  See [[DIssolve]] for an exampleon how to load image files
-    var clock = 0
+  // ...and here is our initial instance
+  var ball = new Rectangle(100, 100,"Samsung", 1, 2
+  )
 
-    val random = new util.Random
-    
-    def changeThings() = {
+  val random = new Random
+  var clock  = 1
 
-      clock += 1
+  /**
+   * Here we draw a BufferedImage on the current state of the [[Effect]]
+   */
+  def makePic() = {
+    // Get an empty space where to draw
+    val pic      = emptyImage
 
+    // Get the tools to draw with
+    val graphics = pic.graphics
+
+    // We can pick a random color
+    val randomColor = new java.awt.Color(random.nextInt(2))
+
+    // And then use it to fill an oval)
+    val radius =  mutable.Buffer[Int](1,2,3,4,5,6,8)
+
+    for (i <- radius){
+
+      if(i ==1){
+    graphics.setColor(randomColor)
+    graphics.fillOval(0, 0, 70, 70)
     }
-    
-    //------- drawing -------//
-    
-    // Thick and thin line widths
-    override def makePic(): BufferedImage = {
-      val pic = emptyImage
-      val graphics = pic.graphics
-
-      if(clock%4 == 1){
-      graphics.setColor(java.awt.Color.black)
-      } else if(clock%4 ==2) {
-      graphics.setColor(java.awt.Color.white)
-      } else if(clock%4 ==3) {
-      graphics.setColor(java.awt.Color.red)
-      } else graphics.setColor(java.awt.Color.blue)
-
-      graphics.fillRect(0, 0, 500, 500)
-
-      for (i <- 1 to 30) {
-
-        val radius = 250 - i * 10
-        val xCenter = 250
-        val yCenter = 250
-
-        var corners = 7
-
-        if (clock > 100) {
-          corners = 6
-        }
-        if (clock > 200) {
-          corners = 5
-        }
-        if (clock > 300) {
-          corners = 4
-        }
-        if (clock > 400) {
-          corners = 3
-        }
-
-        val cornersFloat = corners * 1.0
-
-        var speed = 0.1
-
-        if(clock > 100){
-          speed = -0.1
-        }
-
-        val xs = Array.tabulate(corners)( x => ( radius * math.cos(clock * i * speed + x / cornersFloat * (2.0 * math.Pi))).toInt + xCenter)
-        val ys = Array.tabulate(corners)( x => ( radius * math.sin(clock * i * speed + x / cornersFloat * (2.0 * math.Pi))).toInt + yCenter)
-        println(xs.mkString("Array(", ", ", ")"))
-        if(i% 2 == 1) {
-          graphics.setColor(java.awt.Color.black)
-        } else {
-          graphics.setColor(java.awt.Color.white)
-        }
-        graphics.fillPolygon(xs, ys, corners)
-        //graphics.fillRect(250, 250, 100, 100)
-        //graphics.setColor(java.awt.Color.pink)
-      }
-      pic
+      else if (i==2)
+        if(i ==1)
+    graphics.setColor(randomColor)
+    graphics.fillOval(0, 0, 70, 70)
     }
-    
-    // Effects can also receive information on mouse movements.
-    // When a mouse goes to ne coordinates this method gets called.
-    
-    // We use it to draw still more circles at the mouse location
- 
-    // This effect will never end
-    def next = clock > 100
+    // Finally we return the picture we created.
+    pic
   }
+
+  /**
+   * Here we modify the state (the position and speed of the ball)
+   */
+  def changeThings() = {
+    clock += 1
+
+  }
+    /*
+    // We could have done this with a ball with it's coordinates in var's
+    // It can also be done in a more functional way, replacing the ball
+    // itself
+    ball = new Rectangle(nextX, nextY,"Samsung", nextXSpeed, nextYSpeed)
+
+     */
+
+
+
+      def next = clock > 300
+}
