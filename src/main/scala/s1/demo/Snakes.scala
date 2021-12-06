@@ -7,28 +7,28 @@ class Circle(val x: Int, val y: Int)
 
 /**
  * The idea for this effect came from Felix Bade.
- *
+ * 
  * The effect draws a continuous stream of filled
  * circles that changes it's course randomly.
  */
 
 
 object Snakes extends Effect(500, 500) {
-
+  
     // This variable could hold a background image if wanted
-    // See [[DIssolve]] for an exampleon how to load image files
+    //  See [[DIssolve]] for an exampleon how to load image files
     var clock = 0
 
     val random = new util.Random
-
+    
     def changeThings() = {
 
       clock += 1
 
     }
-
+    
     //------- drawing -------//
-
+    
     // Thick and thin line widths
     override def makePic(): BufferedImage = {
       val pic = emptyImage
@@ -37,16 +37,16 @@ object Snakes extends Effect(500, 500) {
       if(clock%4 == 1){
       graphics.setColor(java.awt.Color.black)
       } else if(clock%4 ==2) {
-      graphics.setColor(java.awt.Color.black)
+      graphics.setColor(java.awt.Color.white)
       } else if(clock%4 ==3) {
-      graphics.setColor(java.awt.Color.black)
-      } else graphics.setColor(java.awt.Color.black)
+      graphics.setColor(java.awt.Color.red)
+      } else graphics.setColor(java.awt.Color.blue)
 
       graphics.fillRect(0, 0, 500, 500)
 
       for (i <- 1 to 30) {
 
-        val radius = 700 - i * 10
+        val radius = 250 - i * 10
         val xCenter = 250
         val yCenter = 250
 
@@ -65,7 +65,7 @@ object Snakes extends Effect(500, 500) {
           corners = 3
         }
 
-        val cornersFloat = corners * 2.0
+        val cornersFloat = corners * 1.0
 
         var speed = 0.1
 
@@ -73,32 +73,26 @@ object Snakes extends Effect(500, 500) {
           speed = -0.1
         }
 
-        var circle = i * 10
-
         val xs = Array.tabulate(corners)( x => ( radius * math.cos(clock * i * speed + x / cornersFloat * (2.0 * math.Pi))).toInt + xCenter)
         val ys = Array.tabulate(corners)( x => ( radius * math.sin(clock * i * speed + x / cornersFloat * (2.0 * math.Pi))).toInt + yCenter)
-        val hs = corners
         println(xs.mkString("Array(", ", ", ")"))
         if(i% 2 == 1) {
           graphics.setColor(java.awt.Color.black)
         } else {
           graphics.setColor(java.awt.Color.white)
         }
-        //graphics.fillPolygon
+        graphics.fillPolygon(xs, ys, corners)
         //graphics.fillRect(250, 250, 100, 100)
         //graphics.setColor(java.awt.Color.pink)
-        graphics.fillOval(150 - circle, 150 - circle, 500 - circle, 500 - circle)
       }
       pic
     }
-
+    
     // Effects can also receive information on mouse movements.
     // When a mouse goes to ne coordinates this method gets called.
-
+    
     // We use it to draw still more circles at the mouse location
-
+ 
     // This effect will never end
     def next = clock > 100
   }
-
-

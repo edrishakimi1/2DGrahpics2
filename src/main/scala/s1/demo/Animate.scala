@@ -15,7 +15,7 @@ object Animate extends SimpleSwingApplication {
   // In this list you can blace all the effects you have
   // Effects are changed when the current effect returns true from it's
   // "next"-method
-  val area = new DemoArea(Buffer(Epilepse))
+  val area = new DemoArea(Buffer(Dissolve))
 
   val top = new MainFrame() {
     preferredSize = (500, 500)

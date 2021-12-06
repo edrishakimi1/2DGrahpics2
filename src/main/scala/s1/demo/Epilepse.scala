@@ -27,8 +27,7 @@ object Epilepse extends Effect(500, 500){
   var speed = 0.0
 
   def makePic() = {
-    // Get an empty space where to draw 
-
+    // Get an empty space where to draw
     
     // Get the tools to draw with
     val graphics = pic.graphics
